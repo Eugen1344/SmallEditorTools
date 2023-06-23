@@ -9,6 +9,12 @@ public class ScriptableObjectCreatorWindow : EditorWindow
 {
 	private string _typeName;
 	private string _objectName = "New Object";
+	
+	[MenuItem("Tools/Scriptable Object Creator")]
+	static void Open()
+	{
+		GetWindow<ScriptableObjectCreatorWindow>("Scriptable Object Creator");
+	}
 
 	void OnGUI()
 	{
@@ -86,11 +92,5 @@ public class ScriptableObjectCreatorWindow : EditorWindow
 			return selectedObjectPath;
 
 		return Path.GetDirectoryName(selectedObjectPath);
-	}
-
-	[MenuItem("Bristar/Editor Extensions/Scriptable Object Creator")]
-	static void Open()
-	{
-		GetWindow<ScriptableObjectCreatorWindow>("Scriptable Object Creator");
 	}
 }
