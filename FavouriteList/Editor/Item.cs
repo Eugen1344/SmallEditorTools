@@ -2,13 +2,13 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace FavouriteList
+namespace SmallEditorTools.FavouriteList
 {
     [Serializable]
     public abstract class Item
     {
         public event Action<Item> OnChanged;
-        public event Action<Item> OnDeleted; 
+        public event Action<Item> OnDeleted;
 
         public abstract void RenderItem(Rect rect);
         public abstract bool TryCacheObject();
@@ -24,7 +24,7 @@ namespace FavouriteList
             EditorGUILayout.BeginHorizontal();
             {
                 Rect objRect = new Rect(rect.x, rect.y, rect.width - buttonSize, rect.height);
-                
+
                 RenderItem(objRect);
 
                 Rect buttonRect = new Rect(rect.x + rect.width - buttonSize, rect.y, buttonSize, buttonSize);

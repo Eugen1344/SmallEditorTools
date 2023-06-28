@@ -2,7 +2,7 @@
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace FavouriteList
+namespace SmallEditorTools.FavouriteList
 {
     public interface IItemsCollection
     {

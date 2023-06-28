@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace FavouriteList
+namespace SmallEditorTools.FavouriteList.SceneItems
 {
     [Serializable]
     public class SceneItem : Item
@@ -20,7 +20,7 @@ namespace FavouriteList
         private SceneItem()
         {
         }
-        
+
         private SceneItem(SceneData data)
         {
             Data = data;
@@ -90,11 +90,9 @@ namespace FavouriteList
 
             Transform[] currentDepthObjects = Data.CachedScene.GetRootGameObjects().Select(obj => obj.transform).ToArray();
 
-            Transform foundObj = null;
-
             foreach (Transform obj in currentDepthObjects)
             {
-                foundObj = GameObjectSearch(obj, path, 0);
+                Transform foundObj = GameObjectSearch(obj, path, 0);
 
                 if (foundObj)
                 {

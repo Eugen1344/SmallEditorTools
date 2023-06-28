@@ -2,54 +2,57 @@
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
-[InitializeOnLoad]
-public static class PlaymodeStartingSceneSetter
+namespace SmallEditorTools.PlaymodeStartingSceneSelector
 {
-    private const string StartingSceneKey = "playmode_starting_scene";
-
-    static PlaymodeStartingSceneSetter()
+    [InitializeOnLoad]
+    public static class PlaymodeStartingSceneSetter
     {
-        SceneAsset selectedScene = LoadStartingSceneFromEditorPrefs();
-        if (!selectedScene)
+        private const string StartingSceneKey = "playmode_starting_scene";
+
+        static PlaymodeStartingSceneSetter()
         {
-            return;
+            SceneAsset selectedScene = LoadStartingSceneFromEditorPrefs();
+            if (!selectedScene)
+            {
+                return;
+            }
+
+            SetPlayModeStartScene(selectedScene);
         }
 
-        SetPlayModeStartScene(selectedScene);
-    }
-
-    public static void SaveStartingSceneFromEditorPrefs(SceneAsset selectedScene)
-    {
-        if (selectedScene == null)
+        public static void SaveStartingSceneFromEditorPrefs(SceneAsset selectedScene)
         {
-            EditorPrefs.SetString(StartingSceneKey + "_" + Application.productName, "");
-            return;
+            if (selectedScene == null)
+            {
+                EditorPrefs.SetString(StartingSceneKey + "_" + Application.productName, "");
+                return;
+            }
+
+            string scenePath = AssetDatabase.GetAssetPath(selectedScene);
+            string sceneGuid = AssetDatabase.AssetPathToGUID(scenePath);
+            EditorPrefs.SetString(StartingSceneKey + "_" + Application.productName, sceneGuid);
         }
 
-        string scenePath = AssetDatabase.GetAssetPath(selectedScene);
-        string sceneGuid = AssetDatabase.AssetPathToGUID(scenePath);
-        EditorPrefs.SetString(StartingSceneKey + "_" + Application.productName, sceneGuid);
-    }
-
-    public static SceneAsset LoadStartingSceneFromEditorPrefs()
-    {
-        string sceneGuid = EditorPrefs.GetString(StartingSceneKey + "_" + Application.productName);
-        if (string.IsNullOrEmpty(sceneGuid))
+        public static SceneAsset LoadStartingSceneFromEditorPrefs()
         {
-            return null;
+            string sceneGuid = EditorPrefs.GetString(StartingSceneKey + "_" + Application.productName);
+            if (string.IsNullOrEmpty(sceneGuid))
+            {
+                return null;
+            }
+
+            string scenePath = AssetDatabase.GUIDToAssetPath(sceneGuid);
+            if (string.IsNullOrEmpty(scenePath))
+            {
+                return null;
+            }
+
+            return AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
         }
 
-        string scenePath = AssetDatabase.GUIDToAssetPath(sceneGuid);
-        if (string.IsNullOrEmpty(scenePath))
+        public static void SetPlayModeStartScene(SceneAsset selectedScene)
         {
-            return null;
+            EditorSceneManager.playModeStartScene = selectedScene;
         }
-
-        return AssetDatabase.LoadAssetAtPath<SceneAsset>(scenePath);
-    }
-
-    public static void SetPlayModeStartScene(SceneAsset selectedScene)
-    {
-        EditorSceneManager.playModeStartScene = selectedScene;
     }
 }

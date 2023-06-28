@@ -3,15 +3,11 @@ using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace FavouriteList
+namespace SmallEditorTools.FavouriteList.AssetItems
 {
     [Serializable]
     public class AssetItemsCollection : ItemsCollection<AssetItem>
     {
-        public AssetItemsCollection()
-        {
-        }
-
         public static AssetItemsCollection TryCreateFromObject(Object obj)
         {
             AssetItemsCollection item = new AssetItemsCollection();
@@ -29,13 +25,10 @@ namespace FavouriteList
             return true;
         }
 
-        private static Color ColorTest;
         public override void Render(Rect rect)
         {
-            //ColorTest = EditorGUI.ColorField(rect, ColorTest);
-
             Color prevColor = GUI.backgroundColor;
-            //GUI.backgroundColor = ColorTest;
+
             GUI.backgroundColor = Color.cyan;
             {
                 base.Render(rect);

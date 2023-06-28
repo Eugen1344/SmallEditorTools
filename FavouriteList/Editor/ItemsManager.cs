@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using SmallEditorTools.FavouriteList.AssetItems;
+using SmallEditorTools.FavouriteList.SceneItems;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
-namespace FavouriteList
+namespace SmallEditorTools.FavouriteList
 {
     [Serializable]
     public class ItemsManager
@@ -33,7 +35,7 @@ namespace FavouriteList
                 if (item.TryAddItem(obj))
                 {
                     ItemsChanged(null);
-                    
+
                     return;
                 }
             }

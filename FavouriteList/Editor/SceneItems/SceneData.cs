@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = System.Object;
 
-namespace FavouriteList
+namespace SmallEditorTools.FavouriteList.SceneItems
 {
     [Serializable]
     public class SceneData
@@ -15,7 +15,7 @@ namespace FavouriteList
         {
             SceneName = sceneName;
         }
-        
+
         public bool IsAcceptableObject(Object obj)
         {
             if (obj is GameObject gameObject)

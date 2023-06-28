@@ -1,8 +1,9 @@
 ﻿using System;
 using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
-namespace FavouriteList
+namespace SmallEditorTools.FavouriteList
 {
     public class MainWindow : EditorWindow, IHasCustomMenu
     {
@@ -34,12 +35,10 @@ namespace FavouriteList
             _saveManager = new EditorPrefsSaveManager();
 
             ItemsManager = _saveManager.Load() ?? new ItemsManager();
-
             ItemsManager.TryCacheAllObjects();
-
             ItemsManager.OnChanged += Save;
 
-            _list = new MainWindowList(ItemsManager); 
+            _list = new MainWindowList(ItemsManager);
         }
 
         private void OnDisable()
@@ -73,7 +72,7 @@ namespace FavouriteList
 
             EditorGUILayout.BeginHorizontal();
             {
-                UnityEngine.Object favouritedObject = EditorGUILayout.ObjectField(null, typeof(UnityEngine.Object), true);
+                Object favouritedObject = EditorGUILayout.ObjectField(null, typeof(Object), true);
 
                 if (favouritedObject)
                 {

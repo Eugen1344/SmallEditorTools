@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
-namespace FavouriteList
+namespace SmallEditorTools.FavouriteList.SceneItems
 {
     [Serializable]
     public class SceneItemsCollection : ItemsCollection<SceneItem>

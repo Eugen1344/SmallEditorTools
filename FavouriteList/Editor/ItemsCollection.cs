@@ -4,7 +4,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace FavouriteList
+namespace SmallEditorTools.FavouriteList
 {
     [Serializable]
     public abstract class ItemsCollection<T> : IItemsCollection where T : Item
@@ -17,7 +17,7 @@ namespace FavouriteList
         public event Action<IItemsCollection> OnChanged;
 
         protected ReorderableList _listView;
- 
+
         public abstract bool TryAddItem(Object obj);
         public abstract bool ShouldBeRendered();
         protected abstract void DrawHeader(Rect rect);
@@ -100,7 +100,7 @@ namespace FavouriteList
         public void InitAfterDeserialize()
         {
             foreach (T item in Items)
-            { 
+            {
                 InitItemAfterDeserialize(item);
             }
 

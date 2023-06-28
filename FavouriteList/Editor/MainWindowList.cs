@@ -6,7 +6,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace FavouriteList
+namespace SmallEditorTools.FavouriteList
 {
     public class MainWindowList
     {
@@ -21,7 +21,7 @@ namespace FavouriteList
             _itemsManager = itemsManager;
 
             _listView = new ReorderableList(_itemsManagerList, typeof(IItemsCollection), true, false, false, false);
-            
+
             _listView.drawElementCallback += RenderListItem;
             _listView.elementHeightCallback += ListElementHeight;
             _listView.onReorderCallbackWithDetails += OnReorder;

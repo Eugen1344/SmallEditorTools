@@ -2,95 +2,98 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
-public class ScriptableObjectCreatorWindow : EditorWindow
+namespace SmallEditorTools.ScriptableObjectCreator
 {
-	private string _typeName;
-	private string _objectName = "New Object";
-	
-	[MenuItem("Tools/Scriptable Object Creator")]
-	static void Open()
-	{
-		GetWindow<ScriptableObjectCreatorWindow>("Scriptable Object Creator");
-	}
+    public class ScriptableObjectCreatorWindow : EditorWindow
+    {
+        private string _typeName;
+        private string _objectName = "New Object";
 
-	void OnGUI()
-	{
-		EditorGUIUtility.labelWidth = 200;
-		_typeName = EditorGUILayout.TextField(new GUIContent("Scriptable object TYPE name"), _typeName);
-		_objectName = EditorGUILayout.TextField(new GUIContent("New scriptable object name"), _objectName);
+        [MenuItem("Tools/Scriptable Object Creator")]
+        static void Open()
+        {
+            GetWindow<ScriptableObjectCreatorWindow>("Scriptable Object Creator");
+        }
 
-		if (GUILayout.Button(new GUIContent("Create")))
-		{
-			CreateObject();
-		}
-	}
+        void OnGUI()
+        {
+            EditorGUIUtility.labelWidth = 200;
+            _typeName = EditorGUILayout.TextField(new GUIContent("Scriptable object TYPE name"), _typeName);
+            _objectName = EditorGUILayout.TextField(new GUIContent("New scriptable object name"), _objectName);
 
-	public void CreateObject()
-	{
-		if (!CheckName(_objectName))
-			return;
+            if (GUILayout.Button(new GUIContent("Create")))
+            {
+                CreateObject();
+            }
+        }
 
-		if (string.IsNullOrWhiteSpace(_typeName))
-			return;
+        public void CreateObject()
+        {
+            if (!CheckName(_objectName))
+                return;
 
-		Type objectType = GetObjectType(_typeName);
+            if (string.IsNullOrWhiteSpace(_typeName))
+                return;
 
-		if (objectType == null)
-		{
-			Debug.LogError($"Type \"{_typeName}\" was not found!");
-			return;
-		}
+            Type objectType = GetObjectType(_typeName);
 
-		string path = GetPath();
-		string assetPath = Path.Combine(path, $"{_objectName}.asset");
-		string uniqueAssetPath = AssetDatabase.GenerateUniqueAssetPath(assetPath);
+            if (objectType == null)
+            {
+                Debug.LogError($"Type \"{_typeName}\" was not found!");
+                return;
+            }
 
-		ScriptableObject newObject = CreateInstance(objectType);
-		AssetDatabase.CreateAsset(newObject, uniqueAssetPath);
+            string path = GetPath();
+            string assetPath = Path.Combine(path, $"{_objectName}.asset");
+            string uniqueAssetPath = AssetDatabase.GenerateUniqueAssetPath(assetPath);
 
-		AssetDatabase.SaveAssets();
-		AssetDatabase.Refresh();
-		EditorUtility.FocusProjectWindow();
-		Selection.activeObject = newObject;
-	}
+            ScriptableObject newObject = CreateInstance(objectType);
+            AssetDatabase.CreateAsset(newObject, uniqueAssetPath);
 
-	private bool CheckName(string objectName)
-	{
-		if (string.IsNullOrWhiteSpace(objectName))
-		{
-			Debug.LogError($"Name: \"{objectName}\" is invalid");
-			return false;
-		}
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            EditorUtility.FocusProjectWindow();
+            Selection.activeObject = newObject;
+        }
 
-		return true;
-	}
+        private bool CheckName(string objectName)
+        {
+            if (string.IsNullOrWhiteSpace(objectName))
+            {
+                Debug.LogError($"Name: \"{objectName}\" is invalid");
+                return false;
+            }
 
-	private Type GetObjectType(string name)
-	{
-		foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
-		{
-			foreach (Type type in assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(ScriptableObject)) && string.Equals(type.Name, name, StringComparison.OrdinalIgnoreCase)))
-			{
-				return type;
-			}
-		}
+            return true;
+        }
 
-		return null;
-	}
+        private Type GetObjectType(string name)
+        {
+            foreach (Assembly assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                foreach (Type type in assembly.GetTypes().Where(type => type.IsSubclassOf(typeof(ScriptableObject)) && string.Equals(type.Name, name, StringComparison.OrdinalIgnoreCase)))
+                {
+                    return type;
+                }
+            }
 
-	private string GetPath()
-	{
-		string selectedObjectPath = AssetDatabase.GetAssetPath(Selection.activeObject.GetInstanceID());
+            return null;
+        }
 
-		if (string.IsNullOrWhiteSpace(selectedObjectPath))
-			return "Assets";
+        private string GetPath()
+        {
+            string selectedObjectPath = AssetDatabase.GetAssetPath(Selection.activeObject.GetInstanceID());
 
-		if (Directory.Exists(selectedObjectPath))
-			return selectedObjectPath;
+            if (string.IsNullOrWhiteSpace(selectedObjectPath))
+                return "Assets";
 
-		return Path.GetDirectoryName(selectedObjectPath);
-	}
+            if (Directory.Exists(selectedObjectPath))
+                return selectedObjectPath;
+
+            return Path.GetDirectoryName(selectedObjectPath);
+        }
+    }
 }

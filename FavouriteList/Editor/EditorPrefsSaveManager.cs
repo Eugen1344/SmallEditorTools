@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace FavouriteList
+namespace SmallEditorTools.FavouriteList
 {
     public class EditorPrefsSaveManager
     {
