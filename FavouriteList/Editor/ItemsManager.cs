@@ -102,7 +102,7 @@ namespace SmallEditorTools.FavouriteList
         {
             foreach (IItemsCollection sceneItem in Items)
             {
-                sceneItem.TryCacheObjects();
+                sceneItem?.TryCacheObjects();
             }
         }
 
