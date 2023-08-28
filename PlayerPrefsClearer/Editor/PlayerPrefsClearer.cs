@@ -1,7 +1,7 @@
 ﻿using UnityEditor;
 using UnityEngine;
 
-namespace Submodules.SmallEditorTools.PlayerPrefsClearer
+namespace Submodules.SmallEditorTools.PlayerPrefsClearer.Editor
 {
     public static class PlayerPrefsClearer
     {
